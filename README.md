@@ -5,11 +5,11 @@ Bu rehber, hayatında daha önce hiç sunucu kurmamış biri için adım adım h
 ---
 
 ## 1. Alınması Gereken Sunucu Özellikleri
-Hosting firmanızdan (hosting.com.tr, Turhost vb.) bir **Linux Sanal Sunucu (VPS / VDS)** satın alırken şu özelliklere dikkat edin:
+Hosting firmanızdan bir **Linux Sanal Sunucu (VPS / VDS)** satın alırken şu özelliklere dikkat edin:
 - **İşletim Sistemi:** **Ubuntu 22.04 LTS** (veya 24.04). Kesinlikle Ubuntu seçin, komutlar buna göre verilmiştir.
 - **RAM:** Minimum **2 GB** (MongoDB ve React derleme işlemi bellek tüketir, 1 GB yetersiz kalabilir).
-- **İşlemci (CPU):** 1 veya 2 Çekirdek yeterlidir.
-- **Disk:** 20 - 30 GB SSD (veya NVMe) yeterli olacaktır.
+- **İşlemci (CPU):** 2 Çekirdek veya üzeri yeterlidir.
+- **Disk:** 20 - 50 GB SSD (veya NVMe) yeterli olacaktır.
 - **Kontrol Paneli:** "Panelsiz" (No Panel) seçin. cPanel veya Plesk kurmanıza gerek yoktur, kaynak tüketir.
 
 > Sunucuyu satın aldıktan sonra firma e-posta adresinize sunucunun **IP Adresini** ve **root (yönetici) Şifresini** gönderecektir.
