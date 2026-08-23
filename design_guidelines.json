@@ -1,0 +1,123 @@
+{
+  "theme": "dark",
+  "project_type": "dashboard",
+  "typography": {
+    "headings": {
+      "family": "'Manrope', sans-serif",
+      "weights": ["400", "500", "700", "800"],
+      "usage": "Use for all page titles, widget titles, and modal headers. Apply tracking-tight for sizes text-2xl and above.",
+      "forbidden": ["Inter", "Roboto", "Space Grotesk"]
+    },
+    "body": {
+      "family": "'IBM Plex Sans', sans-serif",
+      "weights": ["400", "500"],
+      "usage": "Use for standard text, labels, and descriptions."
+    },
+    "numbers_and_data": {
+      "family": "'IBM Plex Mono', monospace",
+      "weights": ["500", "600"],
+      "usage": "CRITICAL: Use for ALL currency amounts, account balances, and dates. Monospaced numbers ensure decimals align perfectly in tables and lists."
+    },
+    "hierarchy_rules": {
+      "h1": "text-4xl sm:text-5xl font-extrabold tracking-tighter text-zinc-50",
+      "h2": "text-2xl sm:text-3xl font-bold tracking-tight text-zinc-100",
+      "h3": "text-lg sm:text-xl font-semibold text-zinc-200",
+      "body": "text-sm text-zinc-400",
+      "labels": "text-xs font-semibold uppercase tracking-[0.15em] text-zinc-500"
+    }
+  },
+  "colors": {
+    "archetype": "The Performance Pro / Swiss Brutalist (Dark Mode Variant)",
+    "backgrounds": {
+      "app_bg": "#09090B",
+      "surface": "#141415",
+      "surface_hover": "#1F1F22",
+      "forbidden_bg": ["transparent for floating elements", "purple/violet gradients", "#1B93A4 (Teal)"]
+    },
+    "borders": {
+      "default": "#27272A",
+      "focus": "#F5D90A"
+    },
+    "text": {
+      "primary": "#FAFAFA",
+      "secondary": "#A1A1AA",
+      "muted": "#71717A"
+    },
+    "accents": {
+      "brand_primary": "#F5D90A",
+      "brand_primary_foreground": "#000000",
+      "income_positive": "#4ADE80",
+      "expense_negative": "#F87171",
+      "pending_warning": "#FBBF24"
+    },
+    "charts": {
+      "income_line": "#4ADE80",
+      "expense_line": "#F87171",
+      "balance_area": "url(#balanceGradient)",
+      "tooltip_bg": "#18181B",
+      "grid_lines": "#27272A"
+    }
+  },
+  "visual_enhancers": {
+    "surfaces": "Grid Borders (The 'Technical' Look). Instead of standard floating cards, use border-collapse styles or crisp 1px borders (border-zinc-800) with NO drop shadows. Flat, geometric, and precise.",
+    "glassmorphism": "Use ONLY for sticky headers or dropdowns: backdrop-blur-xl bg-zinc-950/80 border-b border-zinc-800. NEVER fully transparent.",
+    "corners": "Subtle roundness. Use rounded-none or max rounded-md (6px) for widgets. Inputs and buttons should be rounded-md."
+  },
+  "grids_and_layouts": {
+    "dashboard_strategy": "High Density Grid (Data Correlation, Scanability).",
+    "base_grid": "grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4",
+    "widget_spans": {
+      "summary_cards": "col-span-1",
+      "main_chart": "col-span-1 md:col-span-2 lg:col-span-3 row-span-2",
+      "upcoming_payments_feed": "col-span-1 lg:col-span-1 row-span-2"
+    },
+    "spacing": "Dense internal padding for standard data (p-4 or p-6). But maintain generous padding for the main app container (p-4 md:p-8)."
+  },
+  "components": {
+    "cards": "Cardless aesthetic or flat bordered rectangles. bg-[#141415] border border-zinc-800. No shadows.",
+    "tables": "Dense rows. Hover states MUST have clear contrast (hover:bg-zinc-900). Right-align all numeric/currency columns.",
+    "buttons": "Primary: bg-[#F5D90A] text-black hover:bg-[#FCE64D] hover:-translate-y-[1px] transition-transform. Secondary: bg-transparent border border-zinc-700 text-white hover:bg-zinc-800.",
+    "forms": "Use Shadcn components. Inputs must have clear borders (border-zinc-700) and focus rings (focus:ring-2 focus:ring-[#F5D90A]).",
+    "dropdowns": "MUST have solid backgrounds (bg-zinc-900) with z-50. Never transparent."
+  },
+  "motion": {
+    "micro_interactions": "Hover states on all rows and cards. Buttons slightly translate up (-translate-y-[1px]).",
+    "transitions": "Use specific properties: transition-colors duration-200, transition-transform duration-200. NO transition-all.",
+    "charts": "Animate chart line drawing on load (if supported by library)."
+  },
+  "accessibility": {
+    "contrast": "Text must meet APCA/WCAG standards. Do not use dark gray on darker gray.",
+    "focus": "All interactive elements must have visible focus rings.",
+    "data_testids": "CRITICAL: All interactive and key informational elements MUST include a `data-testid` attribute (e.g., data-testid='add-expense-btn')."
+  },
+  "media": {
+    "icons": "Use Phosphor Icons (@phosphor-icons/react) for dense, professional data tools. They scale better and look cleaner in technical environments.",
+    "empty_states": "Use abstract, geometric SVG shapes or minimal Phosphor icons with text. Do not use generic 3D illustrations."
+  },
+  "localization": {
+    "language": "Turkish (TR)",
+    "currency_formatting": "CRITICAL: Use Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }). Turkey uses comma for decimals and dots for thousands (e.g., 1.250,50 ₺).",
+    "date_formatting": "Use tr-TR locale for dates (DD.MM.YYYY)."
+  },
+  "instructions_to_main_agent": [
+    "Install required dependencies: `yarn add @phosphor-icons/react recharts sonner date-fns`",
+    "Configure Tailwind with the specified font families in tailwind.config.js.",
+    "Initialize Shadcn UI and add components: button, card, input, select, table, dialog, tabs.",
+    "Create a responsive sidebar or top nav for switching between Dashboard, Receivables, Expenses, and Accounts.",
+    "Ensure the chart component uses custom colors defined in 'colors' section.",
+    "Wrap the app or relevant sections in a Dark mode context/class strictly."
+  ],
+  "UNIVERSAL GUIDELINES FOR MAIN AGENT": [
+    "You tend to converge toward generic, 'on distribution' outputs. In frontend design, this creates what users call the 'AI slop' aesthetic. Avoid this: make creative, distinctive frontends that surprise and delight.",
+    "Dark colors look good when used independently without gradients. DO NOT use dark colors as gradients.",
+    "Don't make generic centered layouts, simplistic gradients, and uniform styling.",
+    "Create depth through layered design elements with z-index hierarchy and crisp borders instead of muddy shadows.",
+    "Use glass-morphism effects with backdrop filters (12-24px blur) ONLY where appropriate (headers).",
+    "You MUST NOT apply universal transition (e.g., transition: all). This results in breaking transforms.",
+    "You MUST NOT center align the app container, i.e. do not add .App { text-align: center; } in the css file.",
+    "Use 2-3x more spacing than feels comfortable between distinct sections. Cramped designs look cheap.",
+    "Use `sonner` for toasts. Location: /app/src/components/ui/sonner.js",
+    "All interactive and key informational elements MUST include a data-testid attribute.",
+    "NEVER use placeholder URLs (via.placeholder.com). If images are needed, use valid web URLs or abstract SVGs."
+  ]
+}

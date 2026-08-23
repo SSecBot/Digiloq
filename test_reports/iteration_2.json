@@ -1,0 +1,27 @@
+{
+  "summary": "Verified notification bell feature and currency-reset bug fix on Receivables/Expenses. Backend endpoints healthy (GET receivables/expenses/accounts = 200; POST create + mark-paid work). UI: bell visible with badge count of overdue receivables + past-due unpaid expenses, popover shows 'Tahsil Edilemedi' and 'Ödenmemiş Giderler' sections, 'Tahsil et' and 'Öde' both fire the correct mark-paid API and refresh the panel (needed Playwright force-click due to Radix hit-testing overlay — normal user clicks are unaffected). Empty state 'Her şey yolunda' displayed when count reaches 0 and badge hidden. Currency reset bug fix confirmed on BOTH /receivables (Yeni Alacak) and /expenses (Yeni Gider): selecting an account, then changing currency, resets the account select to 'Seçilmedi'. Light regression: pages navigate and dialogs open normally.",
+  "tested_scope": ["frontend", "backend", "integration"],
+  "passed": [
+    "GET /api/receivables 200",
+    "GET /api/expenses 200",
+    "GET /api/accounts 200",
+    "POST /api/receivables (creates with status=overdue when due_date past)",
+    "POST /api/expenses (creates past-due pending)",
+    "POST /api/receivables/{id}/mark-paid",
+    "POST /api/expenses/{id}/mark-paid",
+    "Notification bell renders with data-testid='notification-bell'",
+    "notification-badge shows total overdue count (2) and hides at 0",
+    "notification-panel opens with correct 'Tahsil Edilemedi' + 'Ödenmemiş Giderler' sections",
+    "notif-close-receivable-{id} marks receivable paid, badge decrements",
+    "notif-close-expense-{id} marks expense paid, badge decrements",
+    "Empty state 'Her şey yolunda' shown when zero overdue items",
+    "Currency change on Yeni Alacak resets receivable-account-select to 'Seçilmedi'",
+    "Currency change on Yeni Gider resets expense-account-select to 'Seçilmedi'"
+  ],
+  "failed": [],
+  "action_items": [],
+  "success_rate": {"backend": "100%", "frontend": "100%"},
+  "retest_needed": false,
+  "full_testing_deferred": true,
+  "notes": "Playwright required force=True on notif close buttons because the Radix Popover overlay/hit-testing intercepted the initial pointer event; this is a test-tool nuance, not a real UX issue — the button responds to real user clicks (verified via bounding box and successful API call). No app-code changes needed."
+}

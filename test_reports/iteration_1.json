@@ -1,0 +1,22 @@
+{
+  "summary": "First smoke test of KASA cash flow app. Backend CRUD for accounts/receivables/expenses works; mark-paid correctly updates linked account balance (1000 -> 1500 after receivable paid, -> 1300 after expense paid). Frontend Dashboard, Accounts, Receivables, and Payments flows all functional with no console errors.",
+  "tested_scope": ["backend", "frontend", "integration"],
+  "passed": [
+    "GET /api/dashboard/summary returns balances_by_currency, pending_receivables_by_currency, pending_expenses_by_currency, overdue_by_currency, cash_flow_forecast, cash_flow_history (200)",
+    "POST/GET/DELETE /api/accounts working, currency=TRY accepted",
+    "POST /api/receivables + POST /api/receivables/{id}/mark-paid sets status=paid, paid_at, and account balance incremented by amount (currency match)",
+    "POST /api/expenses + mark-paid sets paid, decrements linked account balance",
+    "GET /api/upcoming-payments?days=30 returns 200 (empty after all items marked paid)",
+    "Frontend Dashboard loads with dashboard-container, all 4 stat cards, chart-forecast visible",
+    "Accounts page: add-account-btn opens dialog; account created and card appears",
+    "Receivables page: create + row menu + mark-paid moves item to 'Ödenen' filter",
+    "Payments page: payment-calendar visible and current day highlighted",
+    "Zero console errors during full flow"
+  ],
+  "failed": [],
+  "action_items": [],
+  "success_rate": {"backend": "100%", "frontend": "100%"},
+  "retest_needed": false,
+  "full_testing_deferred": true,
+  "notes": "Multi-currency balance guard verified in code (mark-paid only increments/decrements when account currency matches item currency). Not exhaustively tested with mismatched currencies in this pass."
+}
