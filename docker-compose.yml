@@ -23,7 +23,7 @@ services:
       - DB_NAME=kasa_takip
       - JWT_SECRET=${JWT_SECRET:-super_secret_jwt_key_digiloq_2026_xyz}
       - OWNER_EMAIL=${OWNER_EMAIL:-admin@digiloq.com}
-      - OWNER_PASSWORD=${OWNER_PASSWORD:-Admin123456!}
+      - OWNER_PASSWORD=${OWNER_PASSWORD:-Admin285561!}
       - OWNER_NAME=${OWNER_NAME:-Digiloq Admin}
       - CORS_ORIGINS=*
     networks:
@@ -38,7 +38,7 @@ services:
     depends_on:
       - backend
     ports:
-      - "80:80"
+      - "3000:80"
     networks:
       - digiloq-network
 
