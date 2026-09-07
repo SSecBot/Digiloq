@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:6.0
+    container_name: digiloq-mongo
+    restart: always
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - digiloq-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: digiloq-backend
+    restart: always
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_URL=mongodb://mongo:27017
+      - DB_NAME=kasa_takip
+      - JWT_SECRET=${JWT_SECRET:-super_secret_jwt_key_digiloq_2026_xyz}
+      - OWNER_EMAIL=${OWNER_EMAIL:-admin@digiloq.com}
+      - OWNER_PASSWORD=${OWNER_PASSWORD:-Admin123456!}
+      - OWNER_NAME=${OWNER_NAME:-Digiloq Admin}
+      - CORS_ORIGINS=*
+    networks:
+      - digiloq-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: digiloq-frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+    networks:
+      - digiloq-network
+
+volumes:
+  mongo_data:
+
+networks:
+  digiloq-network:
+    driver: bridge
