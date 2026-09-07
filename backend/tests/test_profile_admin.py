@@ -8,8 +8,8 @@ BASE_URL = os.environ.get("REACT_APP_BACKEND_URL") or "https://payment-manager-2
 BASE_URL = BASE_URL.rstrip("/")
 API = f"{BASE_URL}/api"
 
-OWNER_EMAIL = "info@digivideas.com"
-OWNER_PW = "MuazArslan123."
+OWNER_EMAIL = os.environ.get("OWNER_EMAIL", "admin@example.com")
+OWNER_PW = os.environ.get("OWNER_PASSWORD", "admin")
 TS = int(time.time())
 MEMBER_EMAIL = f"qa-{TS}@example.com"
 MEMBER_PW = "MemberPass123!"
@@ -31,12 +31,13 @@ def owner_headers(owner_token):
 @pytest.fixture(scope="module")
 def member(owner_headers):
     """Register a member, get owner to approve, return {id, token, email, password}."""
-    r = requests.post(f"{API}/auth/register", json={"email": MEMBER_EMAIL, "password": MEMBER_PW, "name": "QA Member"})
+    m_email = f"qa-{time.time_ns()}@example.com"
+    r = requests.post(f"{API}/auth/register", json={"email": m_email, "password": MEMBER_PW, "name": "QA Member"})
     assert r.status_code == 200, r.text
     uid = r.json()["user"]["id"]
 
     # cannot login before approve
-    r_login = requests.post(f"{API}/auth/login", json={"email": MEMBER_EMAIL, "password": MEMBER_PW})
+    r_login = requests.post(f"{API}/auth/login", json={"email": m_email, "password": MEMBER_PW})
     assert r_login.status_code == 403
 
     # approve
@@ -44,10 +45,10 @@ def member(owner_headers):
     assert r_app.status_code == 200, r_app.text
 
     # login
-    r_login2 = requests.post(f"{API}/auth/login", json={"email": MEMBER_EMAIL, "password": MEMBER_PW})
+    r_login2 = requests.post(f"{API}/auth/login", json={"email": m_email, "password": MEMBER_PW})
     assert r_login2.status_code == 200
     token = r_login2.json()["access_token"]
-    yield {"id": uid, "token": token, "email": MEMBER_EMAIL, "password": MEMBER_PW}
+    yield {"id": uid, "token": token, "email": m_email, "password": MEMBER_PW}
 
     # cleanup
     requests.delete(f"{API}/admin/users/{uid}", headers=owner_headers)

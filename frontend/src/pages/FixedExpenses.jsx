@@ -69,13 +69,24 @@ export default function FixedExpenses() {
     } catch { toast.error("Kaydedilemedi"); }
   };
 
-  const remove = async (id) => {
-    if (!window.confirm("Sabit gider ve gelecekteki ödenmemiş giderleri silinsin mi? Ödenmiş geçmiş korunur.")) return;
+  const remove = async (id, e) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    const targetId = String(id || "").trim();
+    if (!targetId) return;
+
+    // Optimistic instantaneous UI update
+    setItems((prev) => prev.filter((item) => String(item.id || item._id || "").trim() !== targetId));
     try {
-      await api.delete(`/fixed-expenses/${id}`);
-      toast.success("Silindi");
+      await api.delete(`/fixed-expenses/${encodeURIComponent(targetId)}`);
+      toast.success("Sabit gider ve gelecek planları silindi");
       load();
-    } catch { toast.error("Silinemedi"); }
+    } catch {
+      toast.error("Silinemedi");
+      load();
+    }
   };
 
   const startEdit = (f) => {

@@ -5,14 +5,20 @@ import pytest
 from datetime import date, timedelta
 import calendar as calmod
 
-BASE_URL = os.environ.get("REACT_APP_BACKEND_URL", "https://payment-manager-211.preview.emergentagent.com").rstrip("/")
+BASE_URL = os.environ.get("REACT_APP_BACKEND_URL", "http://localhost:8000").rstrip("/")
 API = f"{BASE_URL}/api"
+OWNER_EMAIL = os.environ.get("OWNER_EMAIL", "admin@example.com")
+OWNER_PASSWORD = os.environ.get("OWNER_PASSWORD", "admin")
 
 
 @pytest.fixture
 def session():
     s = requests.Session()
     s.headers.update({"Content-Type": "application/json"})
+    r = s.post(f"{API}/auth/login", json={"email": OWNER_EMAIL, "password": OWNER_PASSWORD})
+    if r.status_code == 200:
+        token = r.json().get("access_token")
+        s.headers["Authorization"] = f"Bearer {token}"
     return s
 
 

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1E293B" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </linearGradient>
+    <linearGradient id="orangeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FB923C" />
+      <stop offset="100%" stop-color="#EA580C" />
+    </linearGradient>
+  </defs>
+  <!-- Dark grey rounded container -->
+  <rect x="4" y="4" width="120" height="120" rx="26" fill="url(#bgGrad)" stroke="#334155" stroke-width="2" />
+  <!-- Sharp stylized letter D -->
+  <path d="M 38 28 L 68 28 C 88 28 98 40 98 64 C 98 88 88 100 68 100 L 38 100 Z M 54 44 L 54 84 L 66 84 C 77 84 82 76 82 64 C 82 52 77 44 66 44 Z" fill="url(#orangeGrad)" />
+</svg>

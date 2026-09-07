@@ -1,0 +1,15 @@
+{
+  "short_name": "Digiloq",
+  "name": "Digiloq | Akış Takip Paneli",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "128x128 512x512",
+      "type": "image/svg+xml"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#0F172A",
+  "background_color": "#0F172A"
+}

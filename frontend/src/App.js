@@ -2,6 +2,7 @@ import "@/App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "sonner";
 import { AuthProvider } from "@/context/AuthContext";
+import { CurrencyProvider } from "@/context/CurrencyContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Layout from "@/components/Layout";
 import Landing from "@/pages/Landing";
@@ -13,46 +14,54 @@ import Expenses from "@/pages/Expenses";
 import Accounts from "@/pages/Accounts";
 import Payments from "@/pages/Payments";
 import Customers from "@/pages/Customers";
-import FixedExpenses from "@/pages/FixedExpenses";
 import AdminUsers from "@/pages/AdminUsers";
 import Profile from "@/pages/Profile";
+import Workflow from "@/pages/Workflow";
 
 function App() {
   return (
     <div className="App dark">
       <AuthProvider>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route
-              element={
-                <ProtectedRoute>
-                  <Layout />
-                </ProtectedRoute>
-              }
-            >
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/customers" element={<Customers />} />
-              <Route path="/receivables" element={<Receivables />} />
-              <Route path="/fixed-expenses" element={<FixedExpenses />} />
-              <Route path="/expenses" element={<Expenses />} />
-              <Route path="/accounts" element={<Accounts />} />
-              <Route path="/payments" element={<Payments />} />
-              <Route path="/profile" element={<Profile />} />
+        <CurrencyProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Landing />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
               <Route
-                path="/admin/users"
                 element={
-                  <ProtectedRoute ownerOnly>
-                    <AdminUsers />
+                  <ProtectedRoute>
+                    <Layout />
                   </ProtectedRoute>
                 }
-              />
-            </Route>
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </BrowserRouter>
+              >
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/customers" element={<Customers />} />
+                <Route path="/receivables" element={<Receivables />} />
+                <Route path="/gelirler" element={<Navigate to="/receivables" replace />} />
+                <Route path="/fixed-expenses" element={<Navigate to="/expenses" replace />} />
+                <Route path="/expenses" element={<Expenses />} />
+                <Route path="/giderler" element={<Navigate to="/expenses" replace />} />
+                <Route path="/is-akisi" element={<Workflow />} />
+                <Route path="/workflow" element={<Navigate to="/is-akisi" replace />} />
+                <Route path="/accounts" element={<Accounts />} />
+                <Route path="/payments" element={<Payments />} />
+                <Route path="/takvim" element={<Navigate to="/payments" replace />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/ayarlar" element={<Navigate to="/profile" replace />} />
+                <Route
+                  path="/admin/users"
+                  element={
+                    <ProtectedRoute ownerOnly>
+                      <AdminUsers />
+                    </ProtectedRoute>
+                  }
+                />
+              </Route>
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </BrowserRouter>
+        </CurrencyProvider>
       </AuthProvider>
       <Toaster
         theme="dark"

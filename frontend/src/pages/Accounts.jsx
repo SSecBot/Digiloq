@@ -57,13 +57,17 @@ export default function Accounts() {
     }
   };
 
-  const remove = async (id) => {
+  const remove = async (id, e) => {
+    if (e) e.stopPropagation();
+    // Optimistic instantaneous UI update
+    setAccounts((prev) => prev.filter((item) => item.id !== id));
     try {
       await api.delete(`/accounts/${id}`);
-      toast.success("Silindi");
+      toast.success("Hesap silindi");
       load();
     } catch {
       toast.error("Silinemedi");
+      load();
     }
   };
 
@@ -151,8 +155,8 @@ export default function Accounts() {
               </div>
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setOpen(false)}>İptal</Button>
-              <Button data-testid="submit-account-btn" onClick={submit} className="bg-brand text-white hover:bg-brand/90">
+              <Button variant="outline" onClick={() => setOpen(false)} className="rounded-xl text-xs">İptal</Button>
+              <Button data-testid="submit-account-btn" onClick={submit} className="bg-brand text-white hover:bg-brand/90 rounded-xl text-xs">
                 {editing ? "Güncelle" : "Ekle"}
               </Button>
             </DialogFooter>
@@ -160,43 +164,51 @@ export default function Accounts() {
         </Dialog>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
         {accounts.length === 0 && (
-          <div className="col-span-full text-center text-muted-foreground border border-dashed border-border rounded-md p-10">
-            Henüz hesap yok. Sağ üstten ekleyin.
+          <div className="col-span-full text-center text-muted-foreground border border-dashed border-border rounded-2xl p-10 text-xs">
+            Henüz banka hesabı eklenmemiş. Sağ üstten ekleyebilirsiniz.
           </div>
         )}
         {accounts.map((a) => (
-          <div key={a.id} className="bg-card border border-border rounded-md p-5 hover:border-zinc-700 transition-colors" data-testid={`account-card-${a.id}`}>
+          <div key={a.id} className="bg-card border border-border rounded-2xl p-4 hover:border-zinc-700 transition-all shadow-xs flex flex-col justify-between gap-3" data-testid={`account-card-${a.id}`}>
             <div className="flex items-start justify-between">
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-md bg-secondary flex items-center justify-center">
-                  <Landmark className="h-5 w-5 text-brand" />
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="h-9 w-9 rounded-xl bg-secondary flex items-center justify-center border border-border shrink-0">
+                  <Landmark className="h-4 w-4 text-brand" />
                 </div>
-                <div>
-                  <div className="font-display font-semibold">{a.name}</div>
-                  <div className="text-xs text-muted-foreground">{a.bank || "—"}</div>
+                <div className="min-w-0">
+                  <div className="font-display font-semibold text-xs text-foreground truncate">{a.name}</div>
+                  <div className="text-[11px] text-muted-foreground truncate">{a.bank || "—"}</div>
                 </div>
               </div>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <button data-testid={`account-menu-${a.id}`} className="text-muted-foreground hover:text-foreground p-1">
+                  <button
+                    data-testid={`account-menu-${a.id}`}
+                    className="text-muted-foreground hover:text-foreground p-1 rounded-md"
+                    onClick={(ev) => ev.stopPropagation()}
+                  >
                     <MoreVertical className="h-4 w-4" />
                   </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="bg-card border-border">
-                  <DropdownMenuItem onClick={() => startEdit(a)}>
-                    <Pencil className="h-4 w-4 mr-2" /> Düzenle
+                <DropdownMenuContent align="end" className="bg-card border-border rounded-xl">
+                  <DropdownMenuItem onClick={() => startEdit(a)} className="rounded-lg text-xs">
+                    <Pencil className="h-3.5 w-3.5 mr-2 text-brand" /> Düzenle
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => remove(a.id)} className="text-expense focus:text-expense">
-                    <Trash2 className="h-4 w-4 mr-2" /> Sil
+                  <DropdownMenuItem
+                    data-testid={`account-delete-${a.id}`}
+                    onClick={(ev) => remove(a.id, ev)}
+                    className="text-expense focus:text-expense cursor-pointer rounded-lg text-xs"
+                  >
+                    <Trash2 className="h-3.5 w-3.5 mr-2" /> Sil
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
-            <div className="mt-5">
-              <div className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Bakiye</div>
-              <div className="font-mono text-2xl font-semibold mt-1">
+            <div className="mt-2 pt-2 border-t border-border/40">
+              <div className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground font-semibold">Mevcut Bakiye</div>
+              <div className="font-mono text-xl font-bold mt-0.5 text-foreground">
                 {formatCurrency(a.balance, a.currency)}
               </div>
             </div>
